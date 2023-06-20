@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Login</title>
+	</head>
+	<body>
+		<h1>The Login page</h1>
+		<form action="" method="POST">
+			{{ form.hidden_tag() }}
+			<!-- User Name input -->
+			{{ form.username }}
+			<!-- Password input -->
+			{{ form.password }}
+			<!-- Submit button -->
+			{{ form.submit}}
+			<div>
+                <!-- Checkbox -->
+                {{ form.remember() }} {{ form.remember.label }} 
+            </div>
+			<div>
+				<p>Not a member? <a href="{{url_for('register')}}">Register</a></p>
+			</div>
+		</form>
+	</body>
+</html>
+

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>RegistrationForm</title>
+        <link rel="stylesheet" href="static/css/style.css">
+	</head>
+	<body>
+        <div class="wrapper">
+            <div class="inner">
+    	    	<form action="" method="POST">
+                    <h3>Registration Form</h3>
+		    	    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        <div class="form-wrapper">
+                            <!-- First Name input -->
+                            {{ form.firstname }}
+                        </div>
+                        <div class="form-wrapper">
+                            <!-- Last Name input -->
+                            {{ form.lastname }}
+                        </div>
+                    </div>
+                    <div class="form-wrapper">
+                        <!-- User Name input -->
+                        {{ form.username }}
+                    </div>
+                    <div class="form-wrapper">
+		            	<!-- Email input -->
+		        	    {{ form.email }}
+                    </div>
+                    <div class="form-wrapper">
+		    	        <!-- Password input -->
+			            {{ form.password }}
+                    </div>
+	        		<!-- Submit button -->
+    		    	{{ form.submit}}
+                    <div>
+                        <!-- Checkbox -->
+                        {{ form.remember() }} {{ form.remember.label }} 
+                    </div>
+    	    		<div>
+		    	    	<p>Already a member? <a href="{{url_for('login')}}">Login</a></p>
+			        </div>
+    	    	</form>
+            </div>
+        </div>
+	</body>
+</html>

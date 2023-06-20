@@ -1,0 +1,99 @@
+body {
+  font-family: "Muli-Regular";
+  color: #666;
+  font-size: 13px;
+  margin: 0; 
+}
+
+.wrapper {
+  min-height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+.inner {
+  min-width: 850px;
+  margin: auto;
+  padding-top: 68px;
+  padding-bottom: 48px;
+}
+.inner h3 {
+  text-transform: uppercase;
+  font-size: 22px;
+  font-family: "Muli-Bold";
+  text-align: center;
+  margin-bottom: 32px;
+  color: #333;
+  letter-spacing: 2px;
+}
+
+form {
+  width: 50%;
+  padding-left: 45px;
+}
+
+.form-group {
+  display: flex;
+}
+
+.form-group .form-wrapper {
+    width: 50%;
+}
+
+#firstname {
+    margin-right: 20px;
+}
+
+.form-wrapper {
+  margin-bottom: 17px;
+}
+
+input[type="submit"],
+label {
+  display: block;
+  width: 100%;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input[type="submit"] {
+  padding: 10px;
+  background-color: #4caf50;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Style the "Remember me" checkbox */
+#remember {
+  display: inline-block;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+/* Style the login link */
+p {
+  margin-top: 10px;
+  text-align: center;
+}
+
+p a {
+  color: #0000ff;
+}

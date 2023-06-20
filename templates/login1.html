@@ -1,0 +1,29 @@
+<form action="/signin" method="POST">
+	<!-- User Name input -->
+	<div>
+		<input type="text" placeholder="Enter your username" name="username" id="nameform">
+		<label for="nameform">User Name</label>
+	</div>
+	<!-- Password input -->
+    <div>
+        <input type="password" placeholder="Enter your password" name="password" id="passwordform">
+        <label for="passwordform">Password</label>
+    </div>
+    <!-- Checkbox -->
+	<div>
+        <div>
+	          <input type="checkbox" value="" id="rememberme" checked />
+        	  <label for="rememberme">Remember me</label>
+        </div>
+		<div>
+			<!-- Simple link -->
+			<a href="#!">Forgot password?</a>
+		</div>
+	</div>
+	<!-- Submit button -->
+	<button type="submit">Sign in</button>
+	<!-- Register button -->
+	<div>
+		<p>Not a member? <a href="#!">Register</a></p>
+	</div>
+</form>
