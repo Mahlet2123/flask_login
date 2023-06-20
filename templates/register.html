@@ -12,15 +12,13 @@
     	    	<form action="" method="POST">
                     <h3>Registration Form</h3>
 		    	    {{ form.hidden_tag() }}
-                    <div class="form-group">
-                        <div class="form-wrapper">
-                            <!-- First Name input -->
-                            {{ form.firstname }}
-                        </div>
-                        <div class="form-wrapper">
-                            <!-- Last Name input -->
-                            {{ form.lastname }}
-                        </div>
+                    <div class="form-wrapper">
+                        <!-- First Name input -->
+                        {{ form.firstname }}
+                    </div>
+                    <div class="form-wrapper">
+                        <!-- Last Name input -->
+                        {{ form.lastname }}
                     </div>
                     <div class="form-wrapper">
                         <!-- User Name input -->
@@ -34,12 +32,12 @@
 		    	        <!-- Password input -->
 			            {{ form.password }}
                     </div>
-	        		<!-- Submit button -->
-    		    	{{ form.submit}}
                     <div>
                         <!-- Checkbox -->
                         {{ form.remember() }} {{ form.remember.label }} 
                     </div>
+                    <!-- Submit button -->
+                    {{ form.submit}}
     	    		<div>
 		    	    	<p>Already a member? <a href="{{url_for('login')}}">Login</a></p>
 			        </div>
