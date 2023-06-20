@@ -3,26 +3,34 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Login</title>
+		<title>LoginForm</title>
+        <link rel="stylesheet" href="static/css/style.css">
 	</head>
 	<body>
-		<h1>The Login page</h1>
-		<form action="" method="POST">
-			{{ form.hidden_tag() }}
-			<!-- User Name input -->
-			{{ form.username }}
-			<!-- Password input -->
-			{{ form.password }}
-			<!-- Submit button -->
-			{{ form.submit}}
-			<div>
-                <!-- Checkbox -->
-                {{ form.remember() }} {{ form.remember.label }} 
+        <div class="wrapper" style="background-image: url('static/images/bg-registration-form-2.jpg');">
+            <div class="inner">
+    	    	<form action="" method="POST">
+                    <h3>Login Form</h3>
+		    	    {{ form.hidden_tag() }}
+                    <div class="form-wrapper">
+                        <!-- User Name input -->
+                        {{ form.username }}
+                    </div>
+                    <div class="form-wrapper">
+		 	        <!-- Password input -->
+		            {{ form.password }}
+                    </div>
+                    <div>
+                        <!-- Checkbox -->
+                        {{ form.remember() }} {{ form.remember.label }} 
+                    </div>
+                    <!-- Submit button -->
+                    {{ form.submit}}
+					<div>
+						<p>Not a member? <a href="{{url_for('register')}}">Register</a></p>
+					</div>
+    	    	</form>
             </div>
-			<div>
-				<p>Not a member? <a href="{{url_for('register')}}">Register</a></p>
-			</div>
-		</form>
+        </div>
 	</body>
 </html>
-
