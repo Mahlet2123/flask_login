@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import InputRequired, Email, Length, ValidationError
+from wtforms.validators import InputRequired, Email, Length, ValidationError, EqualTo
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 
@@ -39,8 +39,8 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 class LoginForm(FlaskForm):
-    username = StringField("username", validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Username"})
-    password = PasswordField("password", validators=[InputRequired(), Length(min=8, max=12)], render_kw={"placeholder": "Password"})
+    email = StringField("email", validators=[InputRequired(message="Email is required."), Email()], render_kw={"placeholder": "Email"})
+    password = PasswordField("password", validators=[InputRequired(message="Password is required."), Length(min=8, max=12)], render_kw={"placeholder": "Password"})
     remember = BooleanField("Remember me")
     submit = SubmitField("Login")
 
@@ -50,6 +50,7 @@ class RegisterForm(FlaskForm):
     email = StringField("email", validators=[InputRequired(), Email()], render_kw={"placeholder": "Email"})
     username = StringField("username", validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Username"})
     password = PasswordField("password", validators=[InputRequired(), Length(min=8, max=12)], render_kw={"placeholder": "Password"})
+    confirm_password = PasswordField("confirm_password", validators=[InputRequired(), Length(min=8, max=12), EqualTo('password')], render_kw={"placeholder": "Confirm Password"})
     remember = BooleanField("Remember me")
     submit = SubmitField("Register")
 
@@ -69,7 +70,7 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(email=form.email.data).first()
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)

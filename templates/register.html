@@ -15,10 +15,16 @@
                     <div class="form-wrapper">
                         <!-- First Name input -->
                         {{ form.firstname }}
+                        {% if form.firstname.errors %}
+                            {% for error in form.firstname.errors %}
+                                <p class="error">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                     <div class="form-wrapper">
                         <!-- Last Name input -->
                         {{ form.lastname }}
+
                     </div>
                     <div class="form-wrapper">
                         <!-- User Name input -->
@@ -31,6 +37,9 @@
                     <div class="form-wrapper">
 		    	        <!-- Password input -->
 			            {{ form.password }}
+                    </div>
+                    <div>
+                        {{ form.confirm_password }}
                     </div>
                     <div>
                         <!-- Checkbox -->
