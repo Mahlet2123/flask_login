@@ -19,6 +19,7 @@
                             {% for error in form.email.errors %}
                             <p class="error">{{ error }}</p>
                             {% endfor %}
+                        {% endif %}
                     </div>
                     <div class="form-wrapper">
     		 	        <!-- Password input -->
@@ -27,6 +28,7 @@
                             {% for error in form.password.errors %}
                             <p class="error">{{ error }}</p>
                             {% endfor %}
+                        {% endif %}
                     </div>
                     <div>
                         <!-- Checkbox -->
