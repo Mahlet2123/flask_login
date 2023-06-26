@@ -4,15 +4,23 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, m
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import InputRequired, Email, Length, ValidationError, EqualTo
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, validators
+from wtforms.validators import InputRequired, Email, Length, ValidationError, EqualTo, Regexp
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from os import getenv
 
 
 app = Flask(__name__)
 #app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql:///mysql+mysqldb://mahlet:mypass@localhost/gebeyahub_db'
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///database.db'
+#app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///database.db'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqldb://{}:{}@{}/{}'.format(
+        getenv('ONLINE_STORE_MYSQL_USER'),
+        getenv('ONLINE_STORE_MYSQL_PWD'),
+        getenv('ONLINE_STORE_MYSQL_HOST'),
+        getenv('ONLINE_STORE_MYSQL_DB')
+        )
+
 app.config["SECRET_KEY"] = "thisidsupposedtobeasecretkey"
 app.config['JWT_SECRET_KEY'] = 'thisissupposedtobeajwtsecretkey'
 
@@ -39,17 +47,46 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 class LoginForm(FlaskForm):
-    email = StringField("email", validators=[InputRequired(message="Email is required."), Email()], render_kw={"placeholder": "Email"})
-    password = PasswordField("password", validators=[InputRequired(message="Password is required."), Length(min=8, max=12)], render_kw={"placeholder": "Password"})
+    email = StringField("email", validators=[InputRequired(), Email()], render_kw={"placeholder": "Email"})
+    password = PasswordField("password", validators=[InputRequired(), Length(min=8)], render_kw={"placeholder": "Password"})
     remember = BooleanField("Remember me")
     submit = SubmitField("Login")
+
+    def validate_email(self, email):
+        user_email = User.query.filter_by(
+                email=email.data).first()
+        if not user_email:
+            raise ValidationError(
+                    "Don't have an account; Register instead")
+
+    def validate_password(self, password, email):
+        user_email = User.query.filter_by(
+                email=email.data).first()
+        if user_email:
+            #if not bcrypt.check_password_hash(password = user_email.password, password.data):
+            hashed_entered_password = bcrypt.hashpw(password.data.encode('utf-8'), user_email.password)
+            #if not bcrypt.check_password_hash(user_email.password, password):
+            if not hashed_entered_password == user_email.password:
+                raise ValidationError(
+                        "Unauthorized access")
+
 
 class RegisterForm(FlaskForm):
     firstname = StringField("firstname", validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "First Name"})
     lastname = StringField("lastname", validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Last Name"})
     email = StringField("email", validators=[InputRequired(), Email()], render_kw={"placeholder": "Email"})
     username = StringField("username", validators=[InputRequired(), Length(min=4, max=15)], render_kw={"placeholder": "Username"})
-    password = PasswordField("password", validators=[InputRequired(), Length(min=8, max=12)], render_kw={"placeholder": "Password"})
+    password = PasswordField(
+            "password",
+            validators=[
+                InputRequired(),
+                Length(min=8, max=12),
+                Regexp(
+                    regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$",
+                    message="Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character."
+                    )
+                ],
+            render_kw={"placeholder": "Password"})
     confirm_password = PasswordField("confirm_password", validators=[InputRequired(), Length(min=8, max=12), EqualTo('password')], render_kw={"placeholder": "Confirm Password"})
     remember = BooleanField("Remember me")
     submit = SubmitField("Register")
@@ -75,11 +112,6 @@ def login():
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 return redirect(url_for("dashboard", form=form))
-            else:
-                return jsonify({"Error": "Unauthorized access"}), 401
-        else:
-            return jsonify({"Error": "Don't have an account; Register instead"}), 401
-
     return render_template("login.html", form=form)
 
 @app.route("/logout", methods=["GET", "POST"])

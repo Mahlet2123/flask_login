@@ -25,7 +25,7 @@
     		 	        <!-- Password input -->
 	    	            {{ form.password }}
                         {% if form.password.errors %}
-                            {% for error in form.password.errors %}
+                            {% for error in form.email.errors %}
                             <p class="error">{{ error }}</p>
                             {% endfor %}
                         {% endif %}

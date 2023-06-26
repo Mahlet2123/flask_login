@@ -63,6 +63,12 @@ input[type="password"]:focus {
     border: 1px solid #4caf50;
 }
 
+.error {
+  display: inline;
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
 #submit {
   border: none;
   width: 152px;
